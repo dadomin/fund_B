@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>KICK STARTER</title>
+	<link rel="stylesheet" href="/js/fontawesome/css/all.css">
+	<link rel="stylesheet" href="/style.css">
+	<script src="/js/jquery-3.4.1.js"></script>
+	<script src="/js/Fund.js"></script>
+	<script src="/js/Investor.js"></script>
+	<script src="/js/script.js"></script>
+</head>
+<body>
+	
+	<header>
+		<div class="size">
+			<a href="/index.html">
+				<img src="/images/logo.png" alt="logo">
+			</a>
+			<img src="/images/logo-2.png" alt="logo-2">
+			<ul id="login-menu">
+				<li><a href="/login.html">로그인</a></li>
+				<li><i class="fas fa-caret-right"></i></li>
+				<li><a href="/register.html">회원가입</a></li>
+				<li><i class="fas fa-caret-right"></i></li>
+				<li><a href="#">관리자</a></li>
+			</ul>
+			<p class="des">안녕하세요, 킥스타터에 오신것을 환영합니다!</p>
+		</div>
+	</header>
+
+	<ul id="menu-bar">
+		<li><a href="/index.html">메인페이지</a></li>
+		<li><a href="/adapt.html">펀드등록</a></li>
+		<li><a href="/fund.html">펀드보기</a></li>
+		<li><a href="/investor.html" class="click">투자자목록</a></li>
+	</ul>
+
+	<section id="fund-investor">
+		<div class="size">
+			
+			<div class="investor-title">
+				<h3>투자자목록</h3>
+				<div class="line100"></div>
+				<p>킥스타터에 등록된 펀드에 투자한 투자자분들을 확인하실 수 있습니다.</p>
+			</div>
+
+			<div class="investor-upper">
+				<h3><span id="icnt"></span>명의</h3>
+				<p>투자자분들이 계십니다.</p>
+				<select id="inv">
+					<option value="fund" selected>펀드별</option>
+					<option value="indi">개인별</option>
+					<option value="recent">최근등록순</option>
+				</select>
+			</div>
+
+			<div class="investor-form">
+
+				<div class="investor-form-title">
+					<div>펀드번호</div>
+					<div>창업펀드명</div>
+					<div>투자자명</div>
+					<div>투자금액</div>
+					<div>투자지분</div>
+					<div>투자일자</div>
+				</div>
+
+				<div class="investors">
+					<!-- 이곳에 투자자목록이 들어옵니다. -->	
+					<div class="investor">
+						<div>A0001</div>
+						<div>투자자1</div>
+						<div>asdf@asdf</div>
+						<div>5000원</div>
+						<div><canvas width="120" height="30"></canvas>100%</div>
+						<div>2019-08-06 15:55:18</div>
+					</div>
+					<div class="investor">
+						<div>A0002</div>
+						<div>투자자2</div>
+						<div>asdf@asdf</div>
+						<div>5000원</div>
+						<div><canvas width="120" height="30"></canvas>90%</div>
+						<div>2019-08-06 15:55:18</div>
+					</div>
+					<div class="investor">
+						<div>A0003</div>
+						<div>투자자3</div>
+						<div>asdf@asdf</div>
+						<div>5000원</div>
+						<div><canvas width="120" height="30"></canvas>80%</div>
+						<div>2019-08-06 15:55:18</div>
+					</div>
+					<div class="investor">
+						<div>A0004</div>
+						<div>투자자4</div>
+						<div>asdf@asdf</div>
+						<div>5000원</div>
+						<div><canvas width="120" height="30"></canvas>70%</div>
+						<div>2019-08-06 15:55:18</div>
+					</div>
+					<div class="investor">
+						<div>A0004</div>
+						<div>투자자5</div>
+						<div>asdf@asdf</div>
+						<div>3000원</div>
+						<div><canvas width="120" height="30"></canvas>60%</div>
+						<div>2019-08-06 15:55:18</div>
+					</div>
+				</div>
+
+			</div>
+			
+			<ul id="pagination-bar">
+				<li><a href="#" class="page prev"><i class="fas fa-caret-left"></i></a></li>
+				<li><a href="#" class="page">1</a></li>
+				<li><a href="#" class="page">2</a></li>
+				<li><a href="#" class="page">3</a></li>
+				<li><a href="#" class="page next"><i class="fas fa-caret-right"></i></a></li>
+			</ul>
+
+		</div>
+	</section>
+
+	<footer>
+		<div class="footer-boxes">
+			<div class="footer-box">
+				<h3>TEL</h3>
+				<div class="line50"></div>
+				<p>
+					031 - 778 - 2300 <br>
+					010 - 9667 - 0316 <br>
+					010 - 4087 - 1884
+				</p>
+			</div>
+			<div class="footer-box">
+				<h3>LOCATION</h3>
+				<div class="line50"></div>
+				<p>
+					우 ) 13587 <br>
+					경기 성남시 분당구 <br>
+					불정로386번길 35 <br>
+					양영디지털고등학교
+				</p>
+			</div>
+		</div>
+		<div class="footer-under">
+			<p>Copyright &copy; Gondr Allright reserved. Since 2017-03-01</p>
+		</div>
+	</footer>
+
+</body>
+</html>

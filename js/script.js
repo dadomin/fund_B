@@ -26,6 +26,15 @@ class App {
 		console.log(clicking);
 	}
 
+	check(v, l) {
+		if(v.length > l){
+			console.log("작업시작");
+			v = v.substring(0,l-1);
+			v += "...";
+		}
+		return v;
+	}
+
 	remove(e) {
 		e.parentNode.removeChild(e);
 	}
@@ -53,6 +62,8 @@ class App {
 		let back = document.createElement("div");
 		back.classList.add("back");
 		back.innerHTML = this.popupTemp(x);
+		let form = back.querySelector(".up-inv-form");
+		this.makePopInv(form, x.investorList);
 		document.querySelector("body").append(back);
 		$(".pop").on("click", ()=>{
 			this.remove(back);
@@ -60,6 +71,19 @@ class App {
 		$(".close-pop").on("click",()=>{
 			this.remove(back);
 		});
+	}
+
+	makePopInv(form, i) {
+		for(let j = 0; j < i.length; j++){
+			let div = document.createElement("div");
+			div.classList.add("up-inv");
+			let pay = parseInt(i[j].pay).toLocaleString();
+			div.innerHTML = `
+				<div>${i[j].email}</div>
+				<div>${pay}원</div>
+			`
+			form.append(div);
+		}
 	}
 
 	popupTemp(x) {
@@ -83,11 +107,18 @@ class App {
 				</div>
 				<div class="up-box">
 					<div class="up-left">모집금액</div>
-					<span>${x.total}</span>
+					<span>${total}원</span>
 				</div>
 				<div class="up-box">
 					<div class="up-left">현재금액</div>
-					<span>${x.current}</span>
+					<span>${current}원</span>
+				</div>
+				<div class="up-inv-title">
+					<h3>투자자목록</h3>
+					<div class="line100"></div>
+				</div>
+				<div class="up-inv-form">
+
 				</div>
 			</div>
 		`;
@@ -95,11 +126,12 @@ class App {
 	}
 
 	mainRanking(x) {
+		let name = this.check(x.name, 13);
 		let current = parseInt(x.current).toLocaleString();
 		let temp = `
 			<canvas width="240" height="200"></canvas>
 			<h3>${x.number}</h3>
-			<h2>${x.name}</h2>
+			<h2>${name}</h2>
 			<div class="rank-div">
 				<div class="rank-left">달성율</div>
 				<span>${x.current / x.total * 100}%</span>
@@ -110,7 +142,7 @@ class App {
 			</div>
 			<div class="rank-div">
 				<div class="rank-left">현재금액</div>
-				<span>${current}</span>
+				<span>${current}원</span>
 			</div>
 			<button>상세보기</button>
 		`;
@@ -199,13 +231,71 @@ class App {
 	}
 
 	fundLoader() {
-		let fund = document.getElementsByClassName("fund");
+		$("#fcnt").text(this.fundlist.length);
 
-		for(let i = 0; i < fund.length; i++){
-			let canvas = fund[i].querySelector("canvas");
-			let p = 100 - (10*i);
-			this.makeGraph(canvas, p);
-		}
+		let form = document.querySelector(".fund-form");
+		this.fundlist.forEach((x)=>{
+			let div = document.createElement("div");
+			div.classList.add("fund");
+			div.innerHTML = this.fundTemp(x);
+			if(new Date(x.endDate) < new Date()){
+				div.querySelector(".fund-status").innerHTML = "모집완료";
+			}
+			form.append(div);
+			let canvas = div.querySelector("canvas");
+			this.makeGraph(canvas, x);
+			// $(".go-look").on("click", ()=>{
+			// 	this.makePopup(x);
+			// });
+			div.querySelector(".go-look").addEventListener("click", ()=>{
+				this.makePopup(x);
+			})
+		});
+	}
+
+	fundTemp(x) {
+		let name = this.check(x.name, 40);
+		let total = parseInt(x.total).toLocaleString();
+		let current = parseInt(x.current).toLocaleString();
+		let owner = "아무개";
+		let temp = `
+			<div class="fund-title">
+				<h3>${x.number}</h3>
+				<h2>${name}</h2>
+				<div class="fund-status">모집중</div>
+			</div>
+			<div class="fund-views">
+				<canvas width="220" height="220"></canvas>
+				<div class="fund-notice">
+					<div>
+						<h3>모집마감일</h3>
+						<div class="line50"></div>
+						<p>${x.endDate}</p>
+					</div>
+					<div>
+						<h3>모집금액</h3>
+						<div class="line50"></div>
+						<p>${total}원</p>
+					</div>
+					<div>
+						<h3>현재금액</h3>
+						<div class="line50"></div>
+						<p>${current}원</p>
+					</div>
+					<div>
+						<h3>펀드등록자</h3>
+						<div class="line50"></div>
+						<p>${owner}</p>
+					</div>
+				</div>
+				<div class="fund-btns">
+					<button class="go-fund">투자하기</button>
+					<button class="go-look">상세보기</button>
+				</div>
+			</div>
+		`;
+
+		return temp;
 	}
 
 	investorLoader() {

@@ -29,7 +29,10 @@ class App {
 			this.fundLoader();
 		}else if(clicking == "투자자목록"){
 			this.investorLoader();
+		}else if(clicking == "회원가입") {
+			this.registerLoader();
 		}
+
 		console.log(clicking);
 	}
 
@@ -51,7 +54,6 @@ class App {
 
 	check(v, l) {
 		if(v.length > l){
-			console.log("작업시작");
 			v = v.substring(0,l-1);
 			v += "...";
 		}
@@ -226,26 +228,26 @@ class App {
 		let h = canvas.height;
 		let ctx = canvas.getContext("2d");
 		let now = 0;
-		let term = x / 45;
+		let term = x.pay / 45;
 
 		let frame = setInterval(()=>{
 			now += term;
-			if(now >= x){
-				now = x;
+			if(now >= x.pay){
+				now = x.pay;
 				clearInterval(frame);
 			}
-			this.drawLine(ctx, w, h, now, x);
+			this.drawLine(ctx, w, h, now, x.total);
 		}, 1000/30);
 	}
 
-	drawLine(ctx, w, h, now, x) {
+	drawLine(ctx, w, h, now, total) {
 		ctx.clearRect(0,0,w,h);
 
 		ctx.fillStyle = "#bddff0";
 		ctx.fillRect(0,0,w,h);
 
 		ctx.fillStyle = "#2292d1";
-		ctx.fillRect(0, 0, (now / 100) * w,  h);
+		ctx.fillRect(0, 0, (now / total) * w,  h);
 	}
 
 	adaptLoader() {
@@ -572,11 +574,114 @@ class App {
 	}
 
 	investorLoader() {
-		let inv = document.getElementsByClassName("investor");
-		for(let i = 0; i < inv.length; i++){
-			let canvas = inv[i].querySelector("canvas");
-			let p = 100 - (10 * i);
-			this.makeLine(canvas, p);
+		let form = document.querySelector(".investors");
+		this.invlist = this.invlist.sort((a,b) => new Date(b.datetime) - new Date(a.datetime));
+		for(let i = 0; i < this.invlist.length; i++){
+			for(let j = 0; j < i; j++){
+				let invi = this.invlist[i];
+				let invj = this.invlist[j];
+				if(invi.number == invj.number && invi.email == invj.email){
+					if(new Date(invi.datetime) > new Date(invj.datetime)){
+						invi.pay += invj.pay;
+						this.invlist.splice(j, 1);
+					}else {
+						invj.pay += invi.pay;
+						this.invlist.splice(i, 1);
+					}
+				}
+			}
+		}
+		$("#icnt").text(this.invlist.length);
+		this.invlist.forEach((x)=>{
+			let div = document.createElement("div");
+			div.classList.add("investor");
+			let name = this.check(x.name, 11);
+			let pay = parseInt(x.pay).toLocaleString();
+			div.innerHTML = `
+				<div>${x.number}</div>
+				<div>${name}</div>
+				<div>${x.email}</div>
+				<div>${pay}원</div>
+				<div><canvas width="120" height="30"></canvas>${Math.floor(x.pay / x.total * 100)}%</div>
+				<div>${x.datetime}</div>
+			`;
+			let canvas = div.querySelector("canvas");
+			this.makeLine(canvas, x);
+			form.append(div);
+		});
+	}
+
+	registerLoader() {
+		let email = document.querySelector(".register-email");
+		let nick = document.querySelector(".register-nick");
+		let pass = document.querySelector(".register-pass");
+		let repass = document.querySelector(".register-repass");
+
+		email.addEventListener("focusout", (e)=>{
+			this.checkEmail(e.target);
+		});
+		nick.addEventListener("focusout", (e)=>{
+			this.checkNull(e.target, "이름이");
+		});
+		pass.addEventListener("focusout", (e)=>{
+			this.checkPass(e.target);
+		});
+		repass.addEventListener("focusout",(e)=>{
+			this.checkRepass(e.target, pass);
+		});
+
+		document.querySelector(".register-done").addEventListener("click",(e)=>{
+			this.checkEmail(email);
+			this.checkNull(nick, "이름이");
+			this.checkPass(pass);
+			this.checkRepass(repass, pass);
+
+			let ep = e.target.parentNode;
+			let warning = ep.getElementsByClassName("warning");
+			if(warning.length == 0){
+				this.toast("회원가입 성공");
+			}
+		});
+	}
+
+	checkEmail(x){
+		this.checkNull(x, "이메일이");
+		if($(x).hasClass("warning") == true){
+			return;
+		}
+		let regex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[0-9a-zA-Z]+$/;
+		if(x.value.match(regex) == null){
+			this.toast("이메일 형식이 올바르지 않습니다.");
+			x.classList.add("warning");
+		}else {
+			x.classList.remove("warning");
+		}
+	}
+
+	checkPass(x){
+		this.checkNull(x, "비밀번호가")
+		if($(x).hasClass("warning") == true){
+			return;
+		}
+		let regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()])[a-zA-Z0-9!@#$%^&*()]+$/;
+		if(x.value.match(regex) == null) {
+			this.toast("비밀번호 형식이 잘못된 형식입니다. (영문,특문,숫자 모두 포함)");
+			x.classList.add("warning");
+		}else {
+			x.classList.remove("warning");
+		}
+	}
+
+	checkRepass(x, y){
+		this.checkNull(x, "비밀번호 확인란이");
+		if($(x).hasClass("warning") == true){
+			return;
+		}
+		if(x.value != y.value){
+			this.toast("비밀번호와 비밀번호 확인란의 값이 일치하지 않습니다.");
+			x.classList.add("warning"); 
+		}else {
+			x.classList.remove("warning");
 		}
 	}
 }

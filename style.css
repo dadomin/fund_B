@@ -56,6 +56,50 @@ body {
 	color: #2292d1 !important;
 }
 
+.warning {
+	border: 1px solid #ff0b11 !important;
+}
+/*토스트*/
+#toast-back {
+	width: 250px;
+	height: auto;
+	max-height: 95vh;
+	position: fixed;
+	bottom: 20px;
+	right: 15px;
+	z-index: 200;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+}
+.toast {
+	width: 100%;
+	height: auto;
+	min-height: 50px;
+	background-color: #fff;
+	border: 2px solid #2292d1;
+	color: #2292d1;
+	position: relative;
+	text-align: left;
+	border-radius: 12px;
+	margin-top: 7px;
+	padding: 20px;
+}
+.toast-close {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	cursor: pointer;
+	font-size: 24px;
+	font-weight: bold;
+}
+.toast > p {
+	word-break: break-all;
+	font-weight: 400;
+	font-size: 15px;
+}
+
 /*헤더설정*/
 header {
 	position: relative;
@@ -534,7 +578,8 @@ footer > .footer-under > p {
 	height: 30px;
 	background-color: #fff;
 	border: none;
-	border-bottom: 1px solid #2292d1;
+	border: 1px solid #2292d1;
+	border-radius: 7px;
 	padding: 0 12px;
 }
 .adapt-notice > textarea {
@@ -544,6 +589,7 @@ footer > .footer-under > p {
 	border: none;
 	border : 1px solid #2292d1;
 	padding: 20px;
+	border-radius: 7px;
 }
 .ok {
 	width: 350px;
@@ -753,6 +799,67 @@ footer > .footer-under > p {
 	text-align: right;
 	word-break: break-all;
 }
+.up-box > input {
+	float: right;
+	width: 250px;
+	height: 25px;
+	padding: 0 10px;
+	border: 1px solid #2292d1;
+	border-radius: 7px;
+	outline: none;
+}
+.up-box > .up-right {
+	float: right;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+.up-box > .up-right > canvas {
+	border: 1px solid #2292d1;
+	border-radius: 7px;
+	margin-bottom: 7px;
+}
+.up-box > .up-right > .up-right-btns > button {
+	height: 25px;
+	padding: 0 15px;
+	background-color: #2292d1;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+	border-radius: 12px;
+	outline: none;
+}
+.up-btns {
+	width: 100%;
+	height: 45px;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	float: left;
+}
+
+.up-btns > button {
+	height: 100%;
+	padding: 0 20px;
+	background-color: #fff;
+	border: none;
+	cursor: pointer;
+	border-radius: 12px;
+	outline: none;
+	margin: 0 4px;
+}
+
+.up-btns > .fundup-done {
+	border: 1px solid #2292d1;
+	color: #2292d1;
+}
+.up-btns > .fundup-cancel {
+	border: 1px solid #ff0b11;
+	color: #ff0b11;
+}
+
 .up-inv-title {
 	width: 100%;
 	margin: 20px auto;
